@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt  # Necesario para poder mostrar los gráficos en Streamlit
 import numpy as np
 
+
 # Título del dashboard
 st.title("Dashboard de Análisis de Datos")
 
@@ -67,6 +68,32 @@ elif option == "EDA":
             plt.ylabel("Producto")
             plt.title("Top 10 Productos Más Vendidos por Cantidad")
             plt.gca().invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
+
+            # Mostrar el gráfico en Streamlit
+            st.pyplot(plt)  # Muestra el gráfico usando Streamlit
+
+            # Gráfico de Distribución de Ventas por Tipo de Cliente
+            st.subheader("Distribución de Ventas por Tipo de Cliente")
+            plt.figure(figsize=(12,6))
+
+            # Agrupar las ventas por tipo de cliente
+            ventas_tipo_cliente = df.groupby('nom_tipocliente')['Total_Venta'].sum()
+
+            # Graficar el resultado
+            ventas_tipo_cliente.plot(kind='bar', color='purple', alpha=0.7, edgecolor='black')
+
+            # Etiquetas y título del gráfico
+            plt.xlabel("Tipo de Cliente", fontsize=12, labelpad=10)
+            plt.ylabel("Total de Ventas", fontsize=12, labelpad=10)
+            plt.title("Distribución de Ventas por Tipo de Cliente", fontsize=14, pad=15)
+
+            # Ajustes de formato
+            plt.xticks(rotation=45, ha='right', fontsize=10)
+            plt.yticks(fontsize=10)
+            plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+            # Mejorar el ajuste del gráfico
+            plt.tight_layout()
 
             # Mostrar el gráfico en Streamlit
             st.pyplot(plt)  # Muestra el gráfico usando Streamlit

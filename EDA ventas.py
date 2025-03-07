@@ -6,22 +6,39 @@ import numpy as np
 
 
 # Título del dashboard
-st.title("Dashboard de Análisis de Datos")
+st.title("Segmentación de clientes - Hábitos de compra")
 
 # Crear una barra lateral o pestañas para seleccionar entre diferentes secciones
 option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA"])
 
 if option == "Introducción":
-    st.subheader("Introducción de la Base de Datos")
+    st.subheader("Introducción")
     st.markdown("""
-    Este dashboard presenta el análisis de datos de [nombre del conjunto de datos]. Los datos fueron capturados a partir de [fuente de los datos], utilizando técnicas de [método de captura de datos], entre [fecha de inicio] y [fecha de fin].
+    El conjunto de datos en cuestión proviene de una cadena de suministro de productos para el hogar en el municipio de Magangué, Bolívar,
+    y contiene información detallada sobre las ventas de diversos productos como víveres y artículos de aseo. Cada registro incluye datos sobre
+    el producto vendido, la fecha de la transacción, el tipo de producto, y cuál ha sido el producto más vendido en un periodo determinado.
+    El objetivo principal de este análisis es segmentar a los clientes en diferentes grupos según sus hábitos de compra, lo que permitirá ofrecer
+    un sistema de recomendación de productos basado en su historial de compras. A través del uso de modelos de clasificación de machine learning (ML),
+    se buscará identificar patrones y comportamientos recurrentes en las compras de los clientes, con el fin de mejorar la personalización
+    de las ofertas y optimizar las estrategias comerciales. Este enfoque no solo ayudará a entender mejor las preferencias del cliente, sino que también 
+    contribuirá a aumentar la eficiencia y la satisfacción del cliente mediante la propuesta de productos adecuados y oportunos.
+    Los datos sobre las ventas de productos fueron capturan a través de sistemas de punto de venta (POS), los cuales registran cada transacción
+    realizada en el comercio. Estos sistemas permiten almacenar información clave, como el tipo de producto, la cantidad,
+    el precio, y la fecha y hora de la venta, así como el método de pago utilizado.
+    
+    - [**Objetivo General**: Desarrollar un modelo de segmentación de clientes basado en los hábitos de compra
+    a partir de los datos de ventas de una cadena de suministro de productos para el hogar en Magangué, Bolívar, con
+    el fin de implementar un sistema de recomendación de productos y optimizar las estrategias comerciales mediante 
+    el uso de modelos de clasificación de machine learning.]
 
-    Los objetivos principales del análisis son:
-    - [Objetivo 1]
-    - [Objetivo 2]
-    - [Objetivo 3]
+    - [***Objetivos específicos***:]
+        -- [Realizar un análisis exploratorio de datos (EDA)]
+        -- [Segmentar a los clientes]
+        -- [Desarrollar y entrenar modelos de clasificación de machine learning]
+        -- [Proponer un sistema de recomendación de productos]
+        -- [Evaluar el rendimiento de los modelos de clasificación y recomendación]
     """)
-    # Agregar una imagen desde GitHub
+    # Imagen desde GitHub
     st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)
 
 elif option == "EDA":

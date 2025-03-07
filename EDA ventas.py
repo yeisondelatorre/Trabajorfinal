@@ -15,7 +15,7 @@ option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA"])
 if option == "Introducción":
     st.subheader("Introducción")
     st.markdown("""
-    El conjunto de datos en cuestión proviene de una cadena de suministro de productos para el hogar en el municipio de Magangué, Bolívar,
+    El conjunto de datos en cuestión proviene de una cadena de suministro de productos para los hogares en Colombia,
     y contiene información detallada sobre las ventas de diversos productos como víveres y artículos de aseo. Cada registro incluye datos sobre
     el producto vendido, la fecha de la transacción, el tipo de producto, y cuál ha sido el producto más vendido en un periodo determinado.
     El objetivo principal de este análisis es segmentar a los clientes en diferentes grupos según sus hábitos de compra, lo que permitirá ofrecer

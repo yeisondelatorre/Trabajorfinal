@@ -26,17 +26,17 @@ if option == "Introducción":
     realizada en el comercio. Estos sistemas permiten almacenar información clave, como el tipo de producto, la cantidad,
     el precio, y la fecha y hora de la venta, así como el método de pago utilizado.
     
-    - [**Objetivo General**: Desarrollar un modelo de segmentación de clientes basado en los hábitos de compra
+    - **Objetivo General**: Desarrollar un modelo de segmentación de clientes basado en los hábitos de compra
     a partir de los datos de ventas de una cadena de suministro de productos para el hogar en Magangué, Bolívar, con
     el fin de implementar un sistema de recomendación de productos y optimizar las estrategias comerciales mediante 
-    el uso de modelos de clasificación de machine learning.]
+    el uso de modelos de clasificación de machine learning.
 
-    - [***Objetivos específicos***:]
-        -- [Realizar un análisis exploratorio de datos (EDA)]
-        -- [Segmentar a los clientes]
-        -- [Desarrollar y entrenar modelos de clasificación de machine learning]
-        -- [Proponer un sistema de recomendación de productos]
-        -- [Evaluar el rendimiento de los modelos de clasificación y recomendación]
+    - ***Objetivos específicos***:
+        \ast Realizar un análisis exploratorio de datos (EDA)
+        \ast Segmentar a los clientes
+        \ast Desarrollar y entrenar modelos de clasificación de machine learning
+        \ast Proponer un sistema de recomendación de productos
+        \ast Evaluar el rendimiento de los modelos de clasificación y recomendación
     """)
     # Imagen desde GitHub
     st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)

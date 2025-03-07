@@ -32,11 +32,11 @@ if option == "Introducción":
     el uso de modelos de clasificación de machine learning.
 
     - ***Objetivos específicos***:
-        \ast Realizar un análisis exploratorio de datos (EDA)
-        \ast Segmentar a los clientes
-        \ast Desarrollar y entrenar modelos de clasificación de machine learning
-        \ast Proponer un sistema de recomendación de productos
-        \ast Evaluar el rendimiento de los modelos de clasificación y recomendación
+        - Realizar un análisis exploratorio de datos (EDA)
+        - Segmentar a los clientes
+        - Desarrollar y entrenar modelos de clasificación de machine learning
+        - Proponer un sistema de recomendación de productos
+        - Evaluar el rendimiento de los modelos de clasificación y recomendación
     """)
     # Imagen desde GitHub
     st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)

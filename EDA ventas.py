@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import numpy as np
 
 # Título del dashboard
 st.title("Dashboard de Análisis de Datos")
@@ -17,7 +21,6 @@ if option == "Introducción":
     - [Objetivo 2]
     - [Objetivo 3]
     """)
-
     # Agregar una imagen desde GitHub
     st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)
 
@@ -38,5 +41,36 @@ elif option == "EDA":
             # Estadísticas descriptivas
             st.write("Estadísticas Descriptivas:")
             st.write(df.describe())
+
+            # Asegurar que las columnas clave estén en el tipo correcto
+            df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
+            df['precio_dig'] = pd.to_numeric(df['precio_dig'], errors='coerce')
+
+            # Crear una nueva columna de ingresos totales por venta
+            df['Total_Venta'] = df['cantidad'] * df['precio_dig']
+
+            # Agrupar por producto para calcular total de unidades vendidas y total de ingresos
+            top_productos = df.groupby(['codproducto', 'nom_producto']).agg(
+                Total_Unidades=('cantidad', 'sum'),
+                Total_Ventas=('Total_Venta', 'sum')
+            ).reset_index()
+
+            # Ordenar por la cantidad vendida
+            top_productos = top_productos.sort_values(by=['Total_Unidades'], ascending=False)
+
+            # Mostrar los 10 productos más vendidos por cantidad
+            st.write("Top 10 Productos Más Vendidos por Cantidad:")
+            st.write(top_productos.head(10))
+
+            # Visualizar con un gráfico de barras
+            st.subheader("Gráfico de Top 10 Productos Más Vendidos")
+            fig, ax = plt.subplots(figsize=(12, 6))
+            ax.barh(top_productos['nom_producto'][:10], top_productos['Total_Unidades'][:10], color='royalblue')
+            ax.set_xlabel("Total de Unidades Vendidas")
+            ax.set_ylabel("Producto")
+            ax.set_title("Top 10 Productos Más Vendidos por Cantidad")
+            ax.invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
+            st.pyplot(fig)
+
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

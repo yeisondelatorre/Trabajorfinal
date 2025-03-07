@@ -39,7 +39,7 @@ if option == "Introducción":
         - Evaluar el rendimiento de los modelos de clasificación y recomendación
     """)
     # Imagen desde GitHub
-    st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)
+    st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_container_width=True)
 
 elif option == "EDA":
     st.subheader("Análisis Exploratorio de Datos (EDA)")

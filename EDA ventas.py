@@ -15,5 +15,5 @@ Los objetivos principales del análisis son:
 - [Objetivo 3]
 """)
 
-# Agregar una imagen
-st.image("/content/ima1.jpeg", caption="Descripción de la imagen", use_column_width=True)
+# Agregar una imagen desde GitHub
+st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)

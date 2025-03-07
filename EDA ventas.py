@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
+import plotly.express as px
 import numpy as np
 
 # Título del dashboard
@@ -33,12 +33,6 @@ elif option == "EDA":
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
-            st.write("Primeras filas del dataframe:")
-            st.write(df.head())  # Muestra las primeras filas del dataframe
-
-            # Estadísticas descriptivas
-            st.write("Estadísticas Descriptivas:")
-            st.write(df.describe())
 
             # Asegurar que las columnas clave estén en el tipo correcto
             df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
@@ -56,28 +50,19 @@ elif option == "EDA":
             # Ordenar por la cantidad vendida
             top_productos = top_productos.sort_values(by=['Total_Unidades'], ascending=False)
 
-            # Mostrar los 10 productos más vendidos por cantidad
-            st.write("Top 10 Productos Más Vendidos por Cantidad:")
-            st.write(top_productos.head(10))
-
-            # Visualizar con un gráfico de barras usando Seaborn
+            # Visualizar con un gráfico de barras usando Plotly Express
             st.subheader("Gráfico de Top 10 Productos Más Vendidos")
-            plt.figure(figsize=(12, 6))
-            sns.barplot(
-                x='Total_Unidades', 
+            fig = px.bar(
+                top_productos.head(10), 
                 y='nom_producto', 
-                data=top_productos.head(10), 
-                palette='Blues_d'
+                x='Total_Unidades', 
+                orientation='h',  # horizontal
+                color='Total_Unidades', 
+                color_continuous_scale='Blues',
+                labels={'nom_producto': 'Producto', 'Total_Unidades': 'Total de Unidades Vendidas'},
+                title="Top 10 Productos Más Vendidos por Cantidad"
             )
-            plt.xlabel('Total de Unidades Vendidas')
-            plt.ylabel('Producto')
-            plt.title('Top 10 Productos Más Vendidos por Cantidad')
-            plt.gca().invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
+            st.plotly_chart(fig)
 
-            # Mostrar el gráfico en Streamlit
-            st.pyplot()
-
-        except Exception as e:
-            st.error(f"Error al cargar el archivo: {e}")
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

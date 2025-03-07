@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt  # Necesario para poder mostrar los gráficos en Streamlit
+import plotly.express as px
 import numpy as np
-
 
 # Título del dashboard
 st.title("Segmentación de clientes - Hábitos de compra")
@@ -75,45 +75,29 @@ elif option == "EDA":
             # Ordenar por la cantidad vendida
             top_productos = top_productos.sort_values(by=['Total_Unidades'], ascending=False)
 
-            # Visualizar con un gráfico de barras usando Seaborn
+            # Gráfico de Top 10 Productos Más Vendidos usando Plotly
             st.subheader("Gráfico de Top 10 Productos Más Vendidos")
-            plt.figure(figsize=(12, 6))
-            sns.barplot(data=top_productos.head(10), y='nom_producto', x='Total_Unidades', palette='Blues_d')
+            fig = px.bar(top_productos.head(10), 
+                         x='Total_Unidades', 
+                         y='nom_producto', 
+                         orientation='h', 
+                         title="Top 10 Productos Más Vendidos por Cantidad", 
+                         labels={"Total_Unidades": "Total de Unidades Vendidas", "nom_producto": "Producto"}, 
+                         color='Total_Unidades',
+                         color_continuous_scale='Blues')
+            st.plotly_chart(fig)
 
-            # Etiquetas y título
-            plt.xlabel("Total de Unidades Vendidas")
-            plt.ylabel("Producto")
-            plt.title("Top 10 Productos Más Vendidos por Cantidad")
-            plt.gca().invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
-
-            # Mostrar el gráfico en Streamlit
-            st.pyplot(plt)  # Muestra el gráfico usando Streamlit
-
-            # Gráfico de Distribución de Ventas por Tipo de Cliente
+            # Gráfico de Distribución de Ventas por Tipo de Cliente usando Plotly
             st.subheader("Distribución de Ventas por Tipo de Cliente")
-            plt.figure(figsize=(12,6))
-
-            # Agrupar las ventas por tipo de cliente
-            ventas_tipo_cliente = df.groupby('nom_tipocliente')['Total_Venta'].sum()
-
-            # Graficar el resultado
-            ventas_tipo_cliente.plot(kind='bar', color='purple', alpha=0.7, edgecolor='black')
-
-            # Etiquetas y título del gráfico
-            plt.xlabel("Tipo de Cliente", fontsize=12, labelpad=10)
-            plt.ylabel("Total de Ventas", fontsize=12, labelpad=10)
-            plt.title("Distribución de Ventas por Tipo de Cliente", fontsize=14, pad=15)
-
-            # Ajustes de formato
-            plt.xticks(rotation=45, ha='right', fontsize=10)
-            plt.yticks(fontsize=10)
-            plt.grid(axis='y', linestyle='--', alpha=0.7)
-
-            # Mejorar el ajuste del gráfico
-            plt.tight_layout()
-
-            # Mostrar el gráfico en Streamlit
-            st.pyplot(plt)  # Muestra el gráfico usando Streamlit
+            ventas_tipo_cliente = df.groupby('nom_tipocliente')['Total_Venta'].sum().reset_index()
+            fig2 = px.bar(ventas_tipo_cliente, 
+                          x='nom_tipocliente', 
+                          y='Total_Venta', 
+                          title="Distribución de Ventas por Tipo de Cliente", 
+                          labels={"nom_tipocliente": "Tipo de Cliente", "Total_Venta": "Total de Ventas"},
+                          color='Total_Venta', 
+                          color_continuous_scale='Purples')
+            st.plotly_chart(fig2)
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

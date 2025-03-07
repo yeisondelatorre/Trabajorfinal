@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import seaborn as sns
 import numpy as np
 
 # Título del dashboard
@@ -60,19 +60,24 @@ elif option == "EDA":
             st.write("Top 10 Productos Más Vendidos por Cantidad:")
             st.write(top_productos.head(10))
 
-            # Visualizar con un gráfico de barras interactivo usando Plotly
+            # Visualizar con un gráfico de barras usando Seaborn
             st.subheader("Gráfico de Top 10 Productos Más Vendidos")
-            fig = px.bar(
-                top_productos.head(10), 
-                y='nom_producto', 
+            plt.figure(figsize=(12, 6))
+            sns.barplot(
                 x='Total_Unidades', 
-                orientation='h',  # horizontal
-                color='Total_Unidades', 
-                color_continuous_scale='Blues',
-                labels={'nom_producto': 'Producto', 'Total_Unidades': 'Total de Unidades Vendidas'},
-                title="Top 10 Productos Más Vendidos por Cantidad"
+                y='nom_producto', 
+                data=top_productos.head(10), 
+                palette='Blues_d'
             )
-            st.plotly_chart(fig)
+            plt.xlabel('Total de Unidades Vendidas')
+            plt.ylabel('Producto')
+            plt.title('Top 10 Productos Más Vendidos por Cantidad')
+            plt.gca().invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
 
+            # Mostrar el gráfico en Streamlit
+            st.pyplot()
+
+        except Exception as e:
+            st.error(f"Error al cargar el archivo: {e}")
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

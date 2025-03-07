@@ -5,17 +5,9 @@ import matplotlib.pyplot as plt  # Necesario para poder mostrar los gráficos en
 import plotly.express as px
 import numpy as np
 
-# Cambiar fondo de la página con HTML y CSS
-st.markdown("""
-<style>
-.main {
-    background-color: #f0f0f5;
-}
-</style>
-""", unsafe_allow_html=True)
 
 # Título del dashboard
-st.title("Segmentación de clientes - Hábitos de compra")
+st.title(" 📈Segmentación de clientes - Hábitos de compra📉 ")
 
 # Crear una barra lateral o pestañas para seleccionar entre diferentes secciones
 option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA"])

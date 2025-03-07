@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 import numpy as np
 
 # Título del dashboard
@@ -60,15 +60,19 @@ elif option == "EDA":
             st.write("Top 10 Productos Más Vendidos por Cantidad:")
             st.write(top_productos.head(10))
 
-            # Visualizar con un gráfico de barras
+            # Visualizar con un gráfico de barras interactivo usando Plotly
             st.subheader("Gráfico de Top 10 Productos Más Vendidos")
-            fig, ax = plt.subplots(figsize=(12, 6))
-            ax.barh(top_productos['nom_producto'][:10], top_productos['Total_Unidades'][:10], color='royalblue')
-            ax.set_xlabel("Total de Unidades Vendidas")
-            ax.set_ylabel("Producto")
-            ax.set_title("Top 10 Productos Más Vendidos por Cantidad")
-            ax.invert_yaxis()  # Invertir el eje Y para que el producto más vendido esté arriba
-            st.pyplot(fig)
+            fig = px.bar(
+                top_productos.head(10), 
+                y='nom_producto', 
+                x='Total_Unidades', 
+                orientation='h',  # horizontal
+                color='Total_Unidades', 
+                color_continuous_scale='Blues',
+                labels={'nom_producto': 'Producto', 'Total_Unidades': 'Total de Unidades Vendidas'},
+                title="Top 10 Productos Más Vendidos por Cantidad"
+            )
+            st.plotly_chart(fig)
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

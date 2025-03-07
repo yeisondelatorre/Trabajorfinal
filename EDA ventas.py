@@ -19,6 +19,7 @@ if option == "Introducción":
     - [Objetivo 2]
     - [Objetivo 3]
     """)
+
     # Agregar una imagen desde GitHub
     st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_column_width=True)
 
@@ -33,8 +34,14 @@ elif option == "EDA":
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
+            st.write("Primeras filas del dataframe:")
+            st.write(df.head())  # Muestra las primeras filas del dataframe
 
-            # Asegurar que las columnas clave estén en el tipo correcto
+            # Estadísticas descriptivas
+            st.write("Estadísticas Descriptivas:")
+            st.write(df.describe())
+        except Exception as e:
+            st.error(f"Error al cargar el archivo: {e}")
             df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
             df['precio_dig'] = pd.to_numeric(df['precio_dig'], errors='coerce')
 

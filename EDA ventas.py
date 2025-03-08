@@ -30,7 +30,7 @@ if uploaded_file is not None:
 
     if option == "Introducción":
         st.subheader("Introducción")
-        st.markdown("""
+        st.markdown(""" 
         El conjunto de datos en cuestión proviene de una cadena de suministro de productos para los hogares en Colombia,
         y contiene información detallada sobre las ventas de diversos productos como víveres y artículos de aseo. Cada registro incluye datos sobre
         el producto vendido, la fecha de la transacción, el tipo de producto, y cuál ha sido el producto más vendido en un periodo determinado.
@@ -39,7 +39,7 @@ if uploaded_file is not None:
         se buscará identificar patrones y comportamientos recurrentes en las compras de los clientes, con el fin de mejorar la personalización
         de las ofertas y optimizar las estrategias comerciales. Este enfoque no solo ayudará a entender mejor las preferencias del cliente, sino que también 
         contribuirá a aumentar la eficiencia y la satisfacción del cliente mediante la propuesta de productos adecuados y oportunos.
-        Los datos sobre las ventas de productos fueron capturan a través de sistemas de punto de venta (POS), los cuales registran cada transacción
+        Los datos sobre las ventas de productos fueron capturados a través de sistemas de punto de venta (POS), los cuales registran cada transacción
         realizada en el comercio. Estos sistemas permiten almacenar información clave, como el tipo de producto, la cantidad,
         el precio, y la fecha y hora de la venta, así como el método de pago utilizado.
 
@@ -60,7 +60,7 @@ if uploaded_file is not None:
 
     elif option == "EDA":
         st.subheader("Análisis Exploratorio de Datos (EDA)")
-        st.write("""
+        st.write(""" 
         En esta sección realizaremos el análisis exploratorio de datos (EDA) para comprender mejor la base de datos.
         Se pueden incluir gráficas, estadísticas descriptivas y otras herramientas útiles para explorar los datos.
         """)
@@ -116,7 +116,7 @@ if uploaded_file is not None:
 
     elif option == "Modelado":
         st.subheader("Modelado: Clustering de Clientes")
-        st.markdown("""
+        st.markdown(""" 
         En esta sección, se realizará un análisis de clustering utilizando el algoritmo **K-Means** para segmentar los clientes según 
         sus hábitos de compra. Utilizaremos las variables de **cantidad** y **precio_dig** para identificar grupos o clusters de clientes 
         similares, lo que nos permitirá obtener una visión más clara sobre el comportamiento de compra.
@@ -179,12 +179,8 @@ if uploaded_file is not None:
                                    title='Cantidad de Personas por Segmento',
                                    labels={'Cantidad de Personas': 'Número de Personas', 'Segmento': 'Segmento'},
                                    color='Segmento',  # Colorear las barras por segmento
-                                   color_continuous_scale='Viridis'  # Usar una escala de color continua
-                                  )
-            st.plotly_chart(fig_segmentos)
+                                   color_continuous
 
-        except Exception as e:
-            st.error(f"Error al cargar el archivo: {e}")
 
 
 

@@ -23,6 +23,11 @@ option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA", "Mo
 if uploaded_file is not None:
     df = cargar_datos(uploaded_file)  # Cargar el archivo solo una vez
 
+    # Asegurarse de que las columnas necesarias existen
+    if 'cantidad' in df.columns and 'precio_dig' in df.columns:
+        # Crear una nueva columna de ingresos totales por venta
+        df['Total_Venta'] = df['cantidad'] * df['precio_dig']
+
     if option == "Introducción":
         st.subheader("Introducción")
         st.markdown("""
@@ -165,6 +170,7 @@ if uploaded_file is not None:
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+
 
 
 

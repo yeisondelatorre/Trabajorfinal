@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt  # Necesario para poder mostrar los gráficos en Streamlit
 import plotly.express as px
 import numpy as np
 
@@ -80,7 +78,7 @@ elif option == "EDA":
             # Ordenar por la cantidad vendida
             top_productos = top_productos.sort_values(by=['Total_Unidades'], ascending=False)
 
-            # Gráfico de Top 10 Productos Más Vendidos usando Plotly
+            # Gráfico de Top 10 Productos Más Vendidos usando Plotly Express
             st.subheader("Gráfico de Top 10 Productos Más Vendidos")
             fig = px.bar(top_productos.head(10), 
                          x='Total_Unidades', 
@@ -92,7 +90,7 @@ elif option == "EDA":
                          color_continuous_scale='Blues')
             st.plotly_chart(fig)
 
-            # Gráfico de Distribución de Ventas por Tipo de Cliente usando Plotly
+            # Gráfico de Distribución de Ventas por Tipo de Cliente usando Plotly Express
             st.subheader("Distribución de Ventas por Tipo de Cliente")
             ventas_tipo_cliente = df.groupby('nom_tipocliente')['Total_Venta'].sum().reset_index()
             fig2 = px.bar(ventas_tipo_cliente, 
@@ -104,16 +102,17 @@ elif option == "EDA":
                           color_continuous_scale='Purples')
             st.plotly_chart(fig2)
 
-            # Histograma de los productos vendidos usando Matplotlib
+            # Histograma de los productos vendidos usando Plotly Express
             st.subheader("Histograma de Productos Vendidos")
-            plt.figure(figsize=(12, 6))
-            dfinal.groupby('nom_producto')['Total_Venta'].sum().plot(kind='bar', color='seagreen', alpha=0.7, edgecolor='black')
-            plt.xlabel("Producto", fontsize=12)
-            plt.ylabel("Total de Ventas", fontsize=12)
-            plt.title("Total de Ventas por Producto", fontsize=14)
-            plt.xticks(rotation=45, ha='right')
-            plt.tight_layout()  # Asegura que las etiquetas no se corten
-            st.pyplot(plt)  # Mostrar gráfico en Streamlit
+            fig3 = px.bar(dfinal.groupby('nom_producto')['Total_Venta'].sum().reset_index(), 
+                          x='nom_producto', 
+                          y='Total_Venta', 
+                          title="Total de Ventas por Producto", 
+                          labels={"nom_producto": "Producto", "Total_Venta": "Total de Ventas"},
+                          color='Total_Venta', 
+                          color_continuous_scale='seagreen')
+            st.plotly_chart(fig3)
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+

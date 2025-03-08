@@ -67,6 +67,10 @@ elif option == "EDA":
             # Crear una nueva columna de ingresos totales por venta
             df['Total_Venta'] = df['cantidad'] * df['precio_dig']
 
+            # Filtro de productos más vendidos
+            productos_filtrar = [590101, 590102, 590103, 205003, 200130, 800020, 205601, 540101, 501121, 501120]
+            dfinal = df[df['codproducto'].isin(productos_filtrar)]  # Filtrar productos
+
             # Agrupar por producto para calcular total de unidades vendidas y total de ingresos
             top_productos = df.groupby(['codproducto', 'nom_producto']).agg(
                 Total_Unidades=('cantidad', 'sum'),
@@ -99,6 +103,17 @@ elif option == "EDA":
                           color='Total_Venta', 
                           color_continuous_scale='Purples')
             st.plotly_chart(fig2)
+
+            # Histograma de los productos vendidos usando Matplotlib
+            st.subheader("Histograma de Productos Vendidos")
+            plt.figure(figsize=(12, 6))
+            dfinal.groupby('nom_producto')['Total_Venta'].sum().plot(kind='bar', color='seagreen', alpha=0.7, edgecolor='black')
+            plt.xlabel("Producto", fontsize=12)
+            plt.ylabel("Total de Ventas", fontsize=12)
+            plt.title("Total de Ventas por Producto", fontsize=14)
+            plt.xticks(rotation=45, ha='right')
+            plt.tight_layout()  # Asegura que las etiquetas no se corten
+            st.pyplot(plt)  # Mostrar gráfico en Streamlit
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")

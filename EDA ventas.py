@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 import numpy as np
 
 
@@ -8,7 +11,7 @@ import numpy as np
 st.title(" 📈Segmentación de clientes - Hábitos de compra📉 ")
 
 # Crear una barra lateral o pestañas para seleccionar entre diferentes secciones
-option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA"])
+option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA", "Modelado"])
 
 if option == "Introducción":
     st.subheader("Introducción")
@@ -112,5 +115,66 @@ elif option == "EDA":
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+
+elif option == "Modelado":
+    st.subheader("Modelado: Clustering de Clientes")
+    st.markdown("""
+    En esta sección, se realizará un análisis de clustering utilizando el algoritmo **K-Means** para segmentar los clientes según 
+    sus hábitos de compra. Utilizaremos las variables de **cantidad** y **precio_dig** para identificar grupos o clusters de clientes 
+    similares, lo que nos permitirá obtener una visión más clara sobre el comportamiento de compra.
+    """)
+
+    uploaded_file = st.file_uploader("Cargar archivo CSV", type="csv")
+    if uploaded_file is not None:
+        try:
+            df = pd.read_csv(uploaded_file)
+            
+            # Filtro de productos más vendidos
+            productos_filtrar = [590101, 590102, 590103, 205003, 200130, 800020, 205601, 540101, 501121, 501120]
+            dfinal = df[df['codproducto'].isin(productos_filtrar)]  # Filtrar productos
+
+            # Seleccionar variables relevantes para el clustering
+            df_cluster = dfinal[['cantidad', 'precio_dig']]
+
+            # Estandarizar los datos
+            scaler = StandardScaler()
+            df_cluster_scaled = scaler.fit_transform(df_cluster)
+
+            # Encontrar el número óptimo de clusters con el método del codo
+            wcss = []
+            for i in range(1, 11):
+                kmeans = KMeans(n_clusters=i, random_state=42, n_init=10)
+                kmeans.fit(df_cluster_scaled)
+                wcss.append(kmeans.inertia_)
+
+            # Gráfico método del codo usando Plotly
+            fig_codo = go.Figure()
+            fig_codo.add_trace(go.Scatter(
+                x=list(range(1, 11)), 
+                y=wcss, 
+                mode='lines+markers', 
+                name='WCSS'
+            ))
+            fig_codo.update_layout(
+                title='Método del Codo',
+                xaxis_title='Número de Clusters',
+                yaxis_title='WCSS',
+                template='plotly_dark'
+            )
+            st.plotly_chart(fig_codo)
+
+            # K = 3 o K = 4 para la segmentación
+            st.markdown("**Resultado del Clustering con K = 3**:")
+            kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+            dfinal['Cluster'] = kmeans.fit_predict(df_cluster_scaled)
+
+            # Visualización de los clusters
+            fig_clusters = px.scatter(dfinal, x='cantidad', y='precio_dig', color='Cluster', title="Segmentación de Clientes por Clustering (K=3)",
+                                      labels={"cantidad": "Cantidad", "precio_dig": "Precio", "Cluster": "Cluster"})
+            st.plotly_chart(fig_clusters)
+
+        except Exception as e:
+            st.error(f"Error al cargar el archivo: {e}")
+
 
 

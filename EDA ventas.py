@@ -86,8 +86,7 @@ elif option == "EDA":
                          orientation='h', 
                          title="Top 10 Productos Más Vendidos por Cantidad", 
                          labels={"Total_Unidades": "Total de Unidades Vendidas", "nom_producto": "Producto"}, 
-                         color='Total_Unidades',
-                         color_continuous_scale='Blues')
+                         color='Total_Unidades')
             st.plotly_chart(fig)
 
             # Gráfico de Distribución de Ventas por Tipo de Cliente usando Plotly Express
@@ -98,8 +97,7 @@ elif option == "EDA":
                           y='Total_Venta', 
                           title="Distribución de Ventas por Tipo de Cliente", 
                           labels={"nom_tipocliente": "Tipo de Cliente", "Total_Venta": "Total de Ventas"},
-                          color='Total_Venta', 
-                          color_continuous_scale='Purples')
+                          color='Total_Venta')
             st.plotly_chart(fig2)
 
             # Histograma de los productos vendidos usando Plotly Express
@@ -109,10 +107,10 @@ elif option == "EDA":
                           y='Total_Venta', 
                           title="Total de Ventas por Producto", 
                           labels={"nom_producto": "Producto", "Total_Venta": "Total de Ventas"},
-                          color='Total_Venta', 
-                          color_continuous_scale='seagreen')
+                          color='Total_Venta')
             st.plotly_chart(fig3)
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+
 

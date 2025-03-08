@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
-import sweetviz as sv
+import numpy as np
 
 # Título del dashboard
 st.title(" 📈Segmentación de clientes - Hábitos de compra📉 ")
@@ -18,7 +18,7 @@ def cargar_datos(uploaded_file):
 uploaded_file = st.sidebar.file_uploader("Cargar archivo CSV", type="csv")
 
 # Crear una barra lateral o pestañas para seleccionar entre diferentes secciones
-option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA", "Modelado", "Análisis Sweetviz"])
+option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA", "Modelado"])
 
 if uploaded_file is not None:
     df = cargar_datos(uploaded_file)  # Cargar el archivo solo una vez
@@ -185,18 +185,6 @@ if uploaded_file is not None:
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
-
-    elif option == "Análisis Sweetviz":
-        st.subheader("Análisis Sweetviz")
-
-        # Generar el reporte de Sweetviz
-        report = sv.analyze(df)
-
-        # Guardar el reporte en un archivo HTML
-        report.show_html("sweetviz_report.html")
-
-        # Mostrar el enlace de descarga del reporte
-        st.markdown("### [Ver el reporte interactivo de Sweetviz](./sweetviz_report.html)")
 
 
 

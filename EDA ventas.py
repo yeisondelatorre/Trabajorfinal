@@ -6,69 +6,62 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import numpy as np
 
-
 # Título del dashboard
 st.title(" 📈Segmentación de clientes - Hábitos de compra📉 ")
+
+# Crear un contenedor para el archivo y pasarlo a través de todo Streamlit
+@st.cache_resource
+def cargar_datos(uploaded_file):
+    return pd.read_csv(uploaded_file)
+
+# Cargar el archivo una sola vez
+uploaded_file = st.sidebar.file_uploader("Cargar archivo CSV", type="csv")
 
 # Crear una barra lateral o pestañas para seleccionar entre diferentes secciones
 option = st.sidebar.radio("Selecciona una opción", ["Introducción", "EDA", "Modelado"])
 
-if option == "Introducción":
-    st.subheader("Introducción")
-    st.markdown("""
-    El conjunto de datos en cuestión proviene de una cadena de suministro de productos para los hogares en Colombia,
-    y contiene información detallada sobre las ventas de diversos productos como víveres y artículos de aseo. Cada registro incluye datos sobre
-    el producto vendido, la fecha de la transacción, el tipo de producto, y cuál ha sido el producto más vendido en un periodo determinado.
-    El objetivo principal de este análisis es segmentar a los clientes en diferentes grupos según sus hábitos de compra, lo que permitirá ofrecer
-    un sistema de recomendación de productos basado en su historial de compras. A través del uso de modelos de clasificación de machine learning (ML),
-    se buscará identificar patrones y comportamientos recurrentes en las compras de los clientes, con el fin de mejorar la personalización
-    de las ofertas y optimizar las estrategias comerciales. Este enfoque no solo ayudará a entender mejor las preferencias del cliente, sino que también 
-    contribuirá a aumentar la eficiencia y la satisfacción del cliente mediante la propuesta de productos adecuados y oportunos.
-    Los datos sobre las ventas de productos fueron capturan a través de sistemas de punto de venta (POS), los cuales registran cada transacción
-    realizada en el comercio. Estos sistemas permiten almacenar información clave, como el tipo de producto, la cantidad,
-    el precio, y la fecha y hora de la venta, así como el método de pago utilizado.
-    
-    - **Objetivo General**: Desarrollar un modelo de segmentación de clientes basado en los hábitos de compra
-    a partir de los datos de ventas de una cadena de suministro de productos para el hogar en Magangué, Bolívar, con
-    el fin de implementar un sistema de recomendación de productos y optimizar las estrategias comerciales mediante 
-    el uso de modelos de clasificación de machine learning.
+if uploaded_file is not None:
+    df = cargar_datos(uploaded_file)  # Cargar el archivo solo una vez
 
-    - ***Objetivos específicos***:
-        - Realizar un análisis exploratorio de datos (EDA)
-        - Segmentar a los clientes
-        - Desarrollar y entrenar modelos de clasificación de machine learning
-        - Proponer un sistema de recomendación de productos
-        - Evaluar el rendimiento de los modelos de clasificación y recomendación
-    """)
-    # Imagen desde GitHub
-    st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_container_width=True)
+    if option == "Introducción":
+        st.subheader("Introducción")
+        st.markdown("""
+        El conjunto de datos en cuestión proviene de una cadena de suministro de productos para los hogares en Colombia,
+        y contiene información detallada sobre las ventas de diversos productos como víveres y artículos de aseo. Cada registro incluye datos sobre
+        el producto vendido, la fecha de la transacción, el tipo de producto, y cuál ha sido el producto más vendido en un periodo determinado.
+        El objetivo principal de este análisis es segmentar a los clientes en diferentes grupos según sus hábitos de compra, lo que permitirá ofrecer
+        un sistema de recomendación de productos basado en su historial de compras. A través del uso de modelos de clasificación de machine learning (ML),
+        se buscará identificar patrones y comportamientos recurrentes en las compras de los clientes, con el fin de mejorar la personalización
+        de las ofertas y optimizar las estrategias comerciales. Este enfoque no solo ayudará a entender mejor las preferencias del cliente, sino que también 
+        contribuirá a aumentar la eficiencia y la satisfacción del cliente mediante la propuesta de productos adecuados y oportunos.
+        Los datos sobre las ventas de productos fueron capturan a través de sistemas de punto de venta (POS), los cuales registran cada transacción
+        realizada en el comercio. Estos sistemas permiten almacenar información clave, como el tipo de producto, la cantidad,
+        el precio, y la fecha y hora de la venta, así como el método de pago utilizado.
 
-elif option == "EDA":
-    st.subheader("Análisis Exploratorio de Datos (EDA)")
-    st.write("""
-    En esta sección realizaremos el análisis exploratorio de datos (EDA) para comprender mejor la base de datos.
-    Se pueden incluir gráficas, estadísticas descriptivas y otras herramientas útiles para explorar los datos.
-    """)
-    
-    uploaded_file = st.file_uploader("Cargar archivo CSV", type="csv")
-    if uploaded_file is not None:
+        - **Objetivo General**: Desarrollar un modelo de segmentación de clientes basado en los hábitos de compra
+        a partir de los datos de ventas de una cadena de suministro de productos para el hogar en Magangué, Bolívar, con
+        el fin de implementar un sistema de recomendación de productos y optimizar las estrategias comerciales mediante 
+        el uso de modelos de clasificación de machine learning.
+
+        - ***Objetivos específicos***:
+            - Realizar un análisis exploratorio de datos (EDA)
+            - Segmentar a los clientes
+            - Desarrollar y entrenar modelos de clasificación de machine learning
+            - Proponer un sistema de recomendación de productos
+            - Evaluar el rendimiento de los modelos de clasificación y recomendación
+        """)
+        # Imagen desde GitHub
+        st.image("https://github.com/yeisondelatorre/Trabajorfinal/blob/main/ima1.jpeg?raw=true", caption="Descripción de la imagen", use_container_width=True)
+
+    elif option == "EDA":
+        st.subheader("Análisis Exploratorio de Datos (EDA)")
+        st.write("""
+        En esta sección realizaremos el análisis exploratorio de datos (EDA) para comprender mejor la base de datos.
+        Se pueden incluir gráficas, estadísticas descriptivas y otras herramientas útiles para explorar los datos.
+        """)
+
         try:
-            df = pd.read_csv(uploaded_file)
-            st.write("Primeras filas del dataframe:")
-            st.write(df.head())  # Muestra las primeras filas del dataframe
-
-            # Estadísticas descriptivas
-            st.write("Estadísticas Descriptivas:")
-            st.write(df.describe())
-
-            # Asegurar que las columnas clave estén en el tipo correcto
-            df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
-            df['precio_dig'] = pd.to_numeric(df['precio_dig'], errors='coerce')
-
-            # Crear una nueva columna de ingresos totales por venta
-            df['Total_Venta'] = df['cantidad'] * df['precio_dig']
-
-            # Filtro de productos más vendidos
+            # Filtrar productos más vendidos
             productos_filtrar = [590101, 590102, 590103, 205003, 200130, 800020, 205601, 540101, 501121, 501120]
             dfinal = df[df['codproducto'].isin(productos_filtrar)]  # Filtrar productos
 
@@ -116,19 +109,15 @@ elif option == "EDA":
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
 
-elif option == "Modelado":
-    st.subheader("Modelado: Clustering de Clientes")
-    st.markdown("""
-    En esta sección, se realizará un análisis de clustering utilizando el algoritmo **K-Means** para segmentar los clientes según 
-    sus hábitos de compra. Utilizaremos las variables de **cantidad** y **precio_dig** para identificar grupos o clusters de clientes 
-    similares, lo que nos permitirá obtener una visión más clara sobre el comportamiento de compra.
-    """)
+    elif option == "Modelado":
+        st.subheader("Modelado: Clustering de Clientes")
+        st.markdown("""
+        En esta sección, se realizará un análisis de clustering utilizando el algoritmo **K-Means** para segmentar los clientes según 
+        sus hábitos de compra. Utilizaremos las variables de **cantidad** y **precio_dig** para identificar grupos o clusters de clientes 
+        similares, lo que nos permitirá obtener una visión más clara sobre el comportamiento de compra.
+        """)
 
-    uploaded_file = st.file_uploader("Cargar archivo CSV", type="csv")
-    if uploaded_file is not None:
         try:
-            df = pd.read_csv(uploaded_file)
-            
             # Filtro de productos más vendidos
             productos_filtrar = [590101, 590102, 590103, 205003, 200130, 800020, 205601, 540101, 501121, 501120]
             dfinal = df[df['codproducto'].isin(productos_filtrar)]  # Filtrar productos
@@ -168,13 +157,15 @@ elif option == "Modelado":
             kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
             dfinal['Cluster'] = kmeans.fit_predict(df_cluster_scaled)
 
-            # Visualización de los clusters
+            # Visualización de los clusters con la paleta de colores Viridis
             fig_clusters = px.scatter(dfinal, x='cantidad', y='precio_dig', color='Cluster', title="Segmentación de Clientes por Clustering (K=3)",
-                                      labels={"cantidad": "Cantidad", "precio_dig": "Precio", "Cluster": "Cluster"})
+                                      labels={"cantidad": "Cantidad", "precio_dig": "Precio", "Cluster": "Cluster"},
+                                      color_continuous_scale='viridis')
             st.plotly_chart(fig_clusters)
 
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+
 
 
 

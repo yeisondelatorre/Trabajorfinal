@@ -168,8 +168,24 @@ if uploaded_file is not None:
                                       color_continuous_scale='viridis')
             st.plotly_chart(fig_clusters)
 
+            # Contar cuántas personas hay en cada segmento
+            personas_por_segmento = dfinal['Cluster'].value_counts().reset_index()
+            personas_por_segmento.columns = ['Segmento', 'Cantidad de Personas']
+
+            # Graficar con Plotly Express
+            fig_segmentos = px.bar(personas_por_segmento,
+                                   x='Segmento',
+                                   y='Cantidad de Personas',
+                                   title='Cantidad de Personas por Segmento',
+                                   labels={'Cantidad de Personas': 'Número de Personas', 'Segmento': 'Segmento'},
+                                   color='Segmento',  # Colorear las barras por segmento
+                                   color_continuous_scale='Viridis'  # Usar una escala de color continua
+                                  )
+            st.plotly_chart(fig_segmentos)
+
         except Exception as e:
             st.error(f"Error al cargar el archivo: {e}")
+
 
 
 
